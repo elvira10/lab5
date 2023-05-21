@@ -1,4 +1,6 @@
 import org.w3c.dom.Node;
+import java.util.Iterator;
+import java.util.Stack;
 
 public class BST <K extends Comparable <K>, V > {
     private Node root;
@@ -50,38 +52,35 @@ public class BST <K extends Comparable <K>, V > {
             return current.value;
         }
     }
+
     public void delete(K key) {
         root = delete(root, key);
     }
+
     private Node delete(Node root, K key) {
         if (root == null) {
             return null;
-        }
-        else if (key.compareTo(root.key) < 0) {
+        } else if (key.compareTo(root.key) < 0) {
             root.left = delete(root.left, key);
-        }
-        else if (key.compareTo(root.key) > 0) {
+        } else if (key.compareTo(root.key) > 0) {
             root.right = delete(root.right, key);
-        }
-        else {
+        } else {
             if (root.left != null && root.right != null) {
                 K lmax = findMaxData(root.left);
                 root.key = lmax;
                 root.left = delete(root.left, lmax);
                 return root;
-            }
-            else if (root.left != null) {
+            } else if (root.left != null) {
                 return root.left;
-            }
-            else if (root.right != null) {
+            } else if (root.right != null) {
                 return root.right;
-            }
-            else {
+            } else {
                 return null;
             }
         }
         return root;
     }
+
     public K findMaxData(Node root) {
         if (root.right != null) {
             return findMaxData(root.right);
@@ -89,15 +88,55 @@ public class BST <K extends Comparable <K>, V > {
             return root.key;
         }
     }
-    public void preorder(){
+
+    public void preorder() {
         preorder(root);
         System.out.println();
     }
-    public void preorder(Node node){
-        if(node!=null){
-            System.out.print(node.value+" ");
+
+    public void preorder(Node node) {
+        if (node != null) {
+            System.out.print(node.value + " ");
             preorder(node.left);
             preorder(node.right);
+        }
+    }
+
+    public Iterator<Pairs> iterator() {
+        return new KeyIterator();
+    }
+
+    private class KeyIterator implements Iterator<Pairs> {
+        private Stack<Node> stack;
+
+        public KeyIterator() {
+            this.stack = new Stack<>();
+            inOrder(root);
+        }
+        @Override
+        public boolean hasNext() {
+            return !stack.isEmpty();
+        }
+        @Override
+        public Pairs next() {
+            Node node = stack.pop();
+            return new Pairs(node.key, node.value);
+        }
+        private void inOrder(Node node){
+            if (node == null){
+                return;
+            }
+            inOrder(node.right);
+            stack.push(node);
+            inOrder(node.left);
+        }
+    }
+    public class Pairs {
+        public K key;
+        public V val;
+        public Pairs(K key, V value) {
+            this.key = key;
+            this.val = value;
         }
     }
 }
