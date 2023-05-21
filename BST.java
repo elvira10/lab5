@@ -12,4 +12,21 @@ public class BST <K extends Comparable <K>, V >{
             this.value = val;
         }
     }
+    public void put(K key, V val){
+        root = put(root, key, val);
+    }
+    private Node put(Node current, K key, V val){
+        if (current == null){
+            return new Node(key, val);
+        }
+        int comparison = key.compareTo(current.key);
+        if (comparison < 0) {
+            current.left = put(current.left, key, val);
+        } else if (comparison > 0) {
+            current.right = put(current.right, key, val);
+        } else {
+            current.value = val;
+        }
+        return current;
+    }
 }
