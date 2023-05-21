@@ -9,10 +9,13 @@ public class BST <K extends Comparable <K>, V > {
         private K key;
         private V value;
         private Node left, right;
+        private int size;
+
 
         public Node(K key, V val) {
             this.key = key;
             this.value = val;
+            this.size = 1;
         }
     }
 
@@ -32,6 +35,7 @@ public class BST <K extends Comparable <K>, V > {
         } else {
             current.value = val;
         }
+        current.size = 1 + getSize(current.left) + getSize(current.right);
         return current;
     }
 
@@ -78,6 +82,7 @@ public class BST <K extends Comparable <K>, V > {
                 return null;
             }
         }
+        root.size = 1 + getSize(root.left) + getSize(root.right);
         return root;
     }
 
@@ -137,6 +142,16 @@ public class BST <K extends Comparable <K>, V > {
         public Pairs(K key, V value) {
             this.key = key;
             this.val = value;
+        }
+    }
+    public int size(){
+        return getSize(root);
+    }
+    private int getSize(Node node) {
+        if (node == null) {
+            return 0;
+        } else {
+            return node.size;
         }
     }
 }

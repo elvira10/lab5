@@ -33,5 +33,9 @@ public class Main {
                 BST.Pairs pair = iterator.next();
                 System.out.println(pair.key + ": " + pair.val);
             }
+        System.out.println("Size of the Binary Search Tree: " + BST.size());
+        BST.delete(4);
+        BST.delete(7);
+        System.out.println("Updated size of the Binary Search Tree: " + BST.size());
     }
 }
