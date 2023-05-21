@@ -10,5 +10,11 @@ public class Main {
 
         String value = BST.get(4);
         System.out.println(value);
+
+        System.out.println("Before:");
+        BST.preorder();
+        BST.delete(1);
+        System.out.println("After:");
+        BST.preorder();
     }
 }
