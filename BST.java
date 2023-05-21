@@ -29,4 +29,20 @@ public class BST <K extends Comparable <K>, V >{
         }
         return current;
     }
+    public V get(K key){
+        return search(root, key);
+    }
+    private V search(Node current, K key){
+        if (current == null) {
+            return null;
+        }
+        int comparison = key.compareTo(current.key);
+        if (comparison < 0) {
+            return search(current.left, key);
+        } else if (comparison > 0) {
+            return search(current.right, key);
+        } else {
+            return current.value;
+        }
+    }
 }
