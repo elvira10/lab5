@@ -37,5 +37,7 @@ public class Main {
         BST.delete(4);
         BST.delete(7);
         System.out.println("Updated size of the Binary Search Tree: " + BST.size());
+
+        System.out.println(BST.consist(2));
     }
 }

@@ -4,13 +4,16 @@ import java.util.Stack;
 
 public class BST <K extends Comparable <K>, V > {
     private Node root;
+
     private class Node {
         private K key; //Key associated with the node
         private V value; //Value associated with the node
         private Node left, right; //Left and right child nodes
         private int size; //Size of the subtree rooted at the current node
+
         /**
          * constructor
+         *
          * @param key the key of the node
          * @param val the value associated with the key
          */
@@ -24,6 +27,7 @@ public class BST <K extends Comparable <K>, V > {
 
     /**
      * inserts a key-value pair into the bst
+     *
      * @param key the key to insert
      * @param val the value associated with the key
      */
@@ -33,9 +37,10 @@ public class BST <K extends Comparable <K>, V > {
 
     /**
      * inserts a key-value pair into the bst rooted at the given node
+     *
      * @param current the current node in the recursive call
-     * @param key the key to insert
-     * @param val the value associated with the key
+     * @param key     the key to insert
+     * @param val     the value associated with the key
      * @return the updated node
      */
     private Node put(Node current, K key, V val) {
@@ -56,6 +61,7 @@ public class BST <K extends Comparable <K>, V > {
 
     /**
      * retrieves the value associated with the given key from the bst
+     *
      * @param key the key to search for
      * @return the value associated with the key or null if not found
      */
@@ -65,8 +71,9 @@ public class BST <K extends Comparable <K>, V > {
 
     /**
      * searches for the key in the BST rooted at the given node
+     *
      * @param current the current node in the recursive call
-     * @param key the key to search for
+     * @param key     the key to search for
      * @return the value associated with the key or null if not found
      */
     private V search(Node current, K key) {
@@ -85,6 +92,7 @@ public class BST <K extends Comparable <K>, V > {
 
     /**
      * deletes the key and its associated value from the bst
+     *
      * @param key the key to delete
      */
     public void delete(K key) {
@@ -93,8 +101,9 @@ public class BST <K extends Comparable <K>, V > {
 
     /**
      * deletes the key from the bst rooted at the given node
-     * @param root  the root of the current subtree
-     * @param key   the key to delete
+     *
+     * @param root the root of the current subtree
+     * @param key  the key to delete
      * @return the updated node
      */
     private Node delete(Node root, K key) {
@@ -124,6 +133,7 @@ public class BST <K extends Comparable <K>, V > {
 
     /**
      * finds the maximum key in the bst rooted at the given node
+     *
      * @param root the root of the current subtree
      * @return the maximum key
      */
@@ -145,6 +155,7 @@ public class BST <K extends Comparable <K>, V > {
 
     /**
      * preorder traversal of the bst rooted at the given node
+     *
      * @param node the current node in the recursive call
      */
     public void preorder(Node node) {
@@ -157,13 +168,16 @@ public class BST <K extends Comparable <K>, V > {
 
     /**
      * returns an iterator for the bst
+     *
      * @return an iterator that provides key-value pairs in in-order traversal
      */
     public Iterator<Pairs> iterator() {
         return new KeyIterator();
     }
+
     private class KeyIterator implements Iterator<Pairs> {
         private Stack<Node> stack;
+
         public KeyIterator() {
             this.stack = new Stack<>();
             inOrder(root); //Start the iterator by traversing the tree in-order
@@ -171,6 +185,7 @@ public class BST <K extends Comparable <K>, V > {
 
         /**
          * checks if there are more key-value pairs to iterate over
+         *
          * @return true if there are more pairs, false otherwise
          */
         @Override
@@ -180,6 +195,7 @@ public class BST <K extends Comparable <K>, V > {
 
         /**
          * returns the next key-value pair
+         *
          * @return the next key-value pair
          */
         @Override
@@ -190,10 +206,11 @@ public class BST <K extends Comparable <K>, V > {
 
         /**
          * traverses the bst in in-order and pushes nodes onto the stack
+         *
          * @param node the current node in the recursive call
          */
-        private void inOrder(Node node){
-            if (node == null){
+        private void inOrder(Node node) {
+            if (node == null) {
                 return;
             }
             inOrder(node.right); //Push all left child nodes onto the stack
@@ -201,13 +218,15 @@ public class BST <K extends Comparable <K>, V > {
             inOrder(node.left); //Recursively process the right subtree
         }
     }
+
     public class Pairs {
         public K key;   // The key of the pair
         public V val;   // The value associated with the key
 
         /**
          * pairs constructor
-         * @param key the key of the pair
+         *
+         * @param key   the key of the pair
          * @param value the value associated with the key
          */
         public Pairs(K key, V value) {
@@ -218,14 +237,16 @@ public class BST <K extends Comparable <K>, V > {
 
     /**
      * returns the size of the bst
+     *
      * @return the number of nodes in the bst
      */
-    public int size(){
+    public int size() {
         return getSize(root);
     }
 
     /**
      * calculates the size of the bst rooted at the given node
+     *
      * @param node the current node in the recursive call
      * @return the size of the subtree
      */
@@ -235,5 +256,30 @@ public class BST <K extends Comparable <K>, V > {
         } else {
             return node.size; //Returns the size of the subtree rooted at the current node
         }
+    }
+
+    private boolean consist(Node current, K key) {
+        boolean isPresent = false;
+        if (current == null) {
+            isPresent = false;
+            return isPresent;
+        }
+        int compare = key.compareTo(current.key);
+        if (compare < 0){
+            isPresent = true;
+            return isPresent;
+            return consist (current.left, key);
+        }
+        else if (compare > 0){
+            isPresent = true;
+            return isPresent;
+            return consist(current.right, key);
+        }
+        else {
+            return (boolean) current.value;
+        }
+    }
+    public V consist(K key){
+        return boolean consist(root, key);
     }
 }
